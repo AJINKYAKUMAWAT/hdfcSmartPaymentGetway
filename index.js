@@ -4,10 +4,20 @@ const {
   APIException,
   validateHMAC_SHA256,
 } = require("./PaymentHandler");
+const cors = require("cors");
 const crypto = require("crypto");
 const path = require("path");
 const app = express();
 const port = process.env.PORT || 5000;
+
+app.use(
+  cors({
+    origin: "*", // replace with the frontend's URL
+    methods: ["GET", "POST", "PUT", "DELETE"], // specify allowed methods
+    allowedHeaders: ["Content-Type", "Authorization"], // specify allowed headers
+  })
+);
+
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
