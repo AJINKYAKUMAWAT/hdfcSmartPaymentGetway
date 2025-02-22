@@ -86,6 +86,7 @@ class PaymentHandler {
     try {
       const config = fs.readFileSync(configPath, "utf-8");
       this.paymentConfigs = JSON.parse(config);
+      console.log("this.paymentConfigs",this.paymentConfigs)
     } catch (error) {
       console.error(
         "Failed to read configs from file, here's tbe error message:- " +

@@ -28,7 +28,7 @@ app.get("/", (_, res) =>
 app.post("/initiatePayment", async (req, res) => {
   const orderId = `order_${Date.now()}`;
   const amount = 1 + crypto.randomInt(100);
-  const returnUrl = `${req.protocol}://${req.hostname}:https://hdfc-smart-payment-getway.vercel.app//handlePaymentResponse`;
+  const returnUrl = `${req.protocol}://${req.hostname}:${port}/handlePaymentResponse`;
   const paymentHandler = PaymentHandler.getInstance();
   try {
     const orderSessionResp = await paymentHandler.orderSession({
