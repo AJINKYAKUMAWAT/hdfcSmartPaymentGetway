@@ -83,7 +83,7 @@ class PaymentHandler {
     if (PaymentHandler.paymentHandlerInstance !== undefined)
       return PaymentHandler.paymentHandlerInstance;
     this.paymentConfigs = undefined;
-    const configPath = userSpecifiedConfigPath || "config.json";
+    const configPath = path.resolve(__dirname, "config.json");
     try {
       const config = fs.readFileSync(configPath, "utf-8");
       this.paymentConfigs = JSON.parse(config);
