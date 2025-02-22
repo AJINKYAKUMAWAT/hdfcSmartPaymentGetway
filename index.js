@@ -4,10 +4,12 @@ const {
   APIException,
   validateHMAC_SHA256,
 } = require("./PaymentHandler");
+require("dotenv").config();
 const cors = require("cors");
 const crypto = require("crypto");
 const path = require("path");
 const app = express();
+
 const port = process.env.PORT || 5000;
 
 app.use(
