@@ -3,17 +3,7 @@ const https = require("https");
 const { EOL } = require("os");
 const path = require("path");
 const crypto = require("crypto");
-const { config } = require("process");
-
-const configNew = {
-  API_KEY: "696AC84FDA14118AC9FC4EFD6E04BF",
-  MERCHANT_ID: "SG1876",
-  ENABLE_LOGGING: true,
-  PAYMENT_PAGE_CLIENT_ID: "hdfcmaster",
-  BASE_URL: "https://smartgatewayuat.hdfcbank.com",
-  RESPONSE_KEY: "23C8F27937F4ED098B2AF179E41225",
-  LOGGING_PATH: "./logs/PaymentHandler.log",
-};
+const { SimpleLoggerS3 } = require("./SimpleLogger");
 
 class SimpleLogger {
   disableLogging = false;
@@ -95,8 +85,8 @@ class PaymentHandler {
     this.paymentConfigs = undefined;
     const configPath = userSpecifiedConfigPath || "config.json";
     try {
-      // const config = fs.readFileSync(config, "utf-8");
-      this.paymentConfigs =configNew;
+      const config = fs.readFileSync(configPath, "utf-8");
+      this.paymentConfigs = JSON.parse(config);
     } catch (error) {
       console.error(
         "Failed to read configs from file, here's tbe error message:- " +
@@ -105,7 +95,8 @@ class PaymentHandler {
       throw new TypeError("Failed to find/read config file");
     }
     this.validatePaymentConfigs();
-    this.logger = new SimpleLogger(this.getLoggingPath());
+    // this.logger = new SimpleLogger(this.getLoggingPath());
+    this.logger = new SimpleLoggerS3(this.getLoggingPath());
     this.logger.disableLogging = !this.getEnableLogging();
     PaymentHandler.paymentHandlerInstance = this;
     return PaymentHandler.paymentHandlerInstance;
